@@ -9,26 +9,28 @@
 	<!-- <script src="js/script.js"></script> -->
 <script type="text/javascript">
 
-function buildlist(list) {
-	var result = [];
-
-	for(var i=0; i<list.length; i++) {
-		var item = 'item' + i; 
-		result.push(function(){ console.log(item + ' ' + i)})
-	}
-	return result;
+function newClosure(someNum, someRef) {
+    // Local variables that end up within closure
+    var num = someNum;
+    var anArray = [1,2,3];
+    var ref = someRef;
+    return function(x) {
+        num += x;
+        anArray.push(num);
+        console.log('num: ' + num +
+            '\nanArray ' + anArray.toString() +
+            '\nref.someVar ' + ref.someVar);
+      }
 }
-// buildlist([1,2,3]);
+obj = {someVar: 4};
+fn1 = newClosure(4, obj);
+fn2 = newClosure(5, obj);
+fn1(1); // num: 5; anArray: 1,2,3,5; ref.someVar: 4;
+fn2(1); // num: 6; anArray: 1,2,3,6; ref.someVar: 4;
+obj.someVar++;
+fn1(2); // num: 7; anArray: 1,2,3,5,7; ref.someVar: 5;
+fn2(2); // num: 8; anArray: 1,2,3,6,8; ref.someVar: 5;
 
-function testlist() {
-	 var fnlist = buildlist([1,2,3]);
-	 for(var j=0; j<fnlist.length;j++) {
-	 	fnlist[j];
-
-	 }
-	 return fnlist
-}
-testlist()
 </script>
 
 </head>
